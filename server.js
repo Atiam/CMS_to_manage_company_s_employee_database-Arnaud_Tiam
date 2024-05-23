@@ -304,7 +304,7 @@ inquirer.prompt(questions)
                 const managerId = managerChoices[manager];
     
                 // Insert query
-                const query = `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`;
+                const query = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`;
                 pool.query(query, [firstName, lastName, roleId, managerId], (err) => {
                     if (err) {
                         console.error('Error occurred:', err);
@@ -395,7 +395,7 @@ inquirer.prompt(questions)
         
          function updateEmployeeRole() {
 
-            const queryEmployee = `SELECT id, CONCAT(first_name, " ", last_name) AS name FROM employees`
+            const queryEmployee = `SELECT id, CONCAT(first_name, " ", last_name) AS name FROM employee`
 
             pool.query(queryEmployee, (err, employees) => {
                 if (err) throw err;
@@ -424,7 +424,7 @@ inquirer.prompt(questions)
                             }
                         ]).then(({ roleId }) => {
                             
-                            const queryUpdateRole = `UPDATE employees SET role_id = ? WHERE id = ?`
+                            const queryUpdateRole = `UPDATE employee SET role_id = ? WHERE id = ?`
 
                             pool.query(queryUpdateRole, [roleId, employeeId], (err) => {
                                 if (err) throw err;
