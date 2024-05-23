@@ -34,7 +34,7 @@ function init(){
     console.log(`                                            `);
     console.log("============================================");
     console.log(`           EMPLOYEE 
-                            MANAGER                          `);
+            MANAGER                          `);
     console.log(`============================================`);
     console.log(`                                            `);
 
@@ -126,7 +126,7 @@ inquirer.prompt(questions)
             console.log("=========================");
             console.log(`       DEPARTMENTS       `);
             console.log("=========================");
-            console.log(results);
+            console.table(results.rows); // Display results in a table
             process.exit(0);
         
         });
@@ -160,7 +160,7 @@ inquirer.prompt(questions)
             console.log("==============================================================================================");
             console.log(`                                       EMPLOYEES                                         `);
             console.log("==============================================================================================");
-            console.table(results);
+            console.table(results.rows); // Display results in a table
             process.exit(0);
             
         });
@@ -189,7 +189,7 @@ inquirer.prompt(questions)
                 console.log("=================================================");
                 console.log(`                    ROLES                        `)
                 console.log("=================================================");
-                console.log(results);
+                console.table(results.rows); // Display results in a table
                 process.exit(0);
             });
         }
@@ -215,11 +215,11 @@ inquirer.prompt(questions)
             ])
 
             .then((answers) => {
-                const {departmentName} = answers;
+                // const {departmentName} = answers;
                 const query = `INSERT INTO department (name)
-                                VALUES (?)`;
+                                VALUES (${answers})`;
 
-                pool.query(query, [departmentName], function (err, results) {
+                pool.query(query, function (err, results) {
                     if (err) {
                         console.error('Error occurred:', err);
                         return;
@@ -227,7 +227,7 @@ inquirer.prompt(questions)
                     console.clear();
                     console.log(`                                                       `);
                     console.log("_______________________________________________________");
-                    console.log(`      ${departmentName} Department added successfully! `)
+                    console.log(`      ${answers} Department added successfully! `)
                     console.log("_______________________________________________________");
                     console.log(`                                                       `);
                     process.exit(0);
