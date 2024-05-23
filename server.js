@@ -395,7 +395,7 @@ inquirer.prompt(questions)
         
          function updateEmployeeRole() {
 
-            const queryEmployee = `SELECT id, CONCAT(first_name, " ", last_name) AS name FROM employee`
+            const queryEmployee = `SELECT id, first_name || ' ' || last_name AS name FROM employee`
 
             pool.query(queryEmployee, (err, employees) => {
                 if (err) throw err;
