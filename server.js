@@ -17,12 +17,12 @@ const pool = new Pool(
       // Enter PostgreSQL password
       password: 'root',
       host: 'localhost',
-      database: 'employeeManager_db'
+      database: 'employeemanager_db'
   },
   console.log('Connected to the courses_db database!')
   )
   
-  pool.connect();
+//   pool.connect();
 
 
 // Functions _______________________________________________
@@ -126,7 +126,7 @@ inquirer.prompt(questions)
             console.log("=========================");
             console.log(`       DEPARTMENTS       `);
             console.log("=========================");
-            console.table(results);
+            console.log(results);
             process.exit(0);
         
         });
