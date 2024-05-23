@@ -54,7 +54,7 @@ function init(){
                 `Add Department`,
                 `None`,
             ],
-            default: `Use arrow keys. Move up and down to reveal more choices`
+            default: `Use arrow keys. Move up and down to reveal more choices.`
         },
     ];
 
@@ -189,7 +189,7 @@ inquirer.prompt(questions)
                 console.log("=================================================");
                 console.log(`                    ROLES                        `)
                 console.log("=================================================");
-                console.table(results);
+                console.log(results);
                 process.exit(0);
             });
         }
@@ -243,87 +243,90 @@ inquirer.prompt(questions)
 
         // Add Employee Function -----------------------
    
-    function addEmployee() {
-        // const db = require('./config/connection');
-    
-        // Query to get all roles
-        const queryAllRoles = `SELECT * FROM role`;
-        pool.query(queryAllRoles, (err, roles) => {
-            if (err) throw err;
-    
-            // Manager choices
-            const managerChoices = {
-                'Sales Lead': 1,
-                'Lead Engineer': 3,
-                'Account Manager': 5,
-                'Legal Team Lead': 7,
-                'None': null,
-            };
-    
-            // Prompt for employee details
-            inquirer.prompt([
-                {
-                    type: 'input',
-                    name: 'firstName',
-                    message: "What is the employee's first name?",
-                    validate: (first_name) => {
-                        if(!first_name) {
-                            return 'Please enter a first name.';
-                        }
-                        return true;
-                    },
-                },
-                {
-                    type: 'input',
-                    name: 'lastName',
-                    message: "What is the employee's last name?",
-                    validate: (last_name) => {
-                        if(!last_name) {
-                            return 'Please enter a last name.';
-                        }
-                        return true;
-                    },
-                },
-                {
-                    type: 'list',
-                    name: 'role',
-                    message: "What is the employee's role?",
-                    choices: roles.map(role => role.title)
-                },
-                {
-                    type: 'list',
-                    name: 'manager',
-                    message: "Select the manager position responsible for this employee?",
-                    choices: Object.keys(managerChoices),
+        function addEmployee() {
+            // Query to get all roles
+            const queryAllRoles = `SELECT * FROM role`;
+            pool.query(queryAllRoles, (err, result) => {
+                if (err) {
+                    console.error('Error occurred:', err);
+                    return;
                 }
-            ]).then((answers) => {
-                const { firstName, lastName, role, manager } = answers;
-    
-                // Find role ID
-                const roleId = roles.find(r => r.title === role).id;
-                const managerId = managerChoices[manager];
-    
-                // Insert query
-                const query = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`;
-                pool.query(query, [firstName, lastName, roleId, managerId], (err) => {
-                    if (err) {
-                        console.error('Error occurred:', err);
-                        return;
+                
+                const roles = result.rows; // Extract rows from result object
+                
+                // Manager choices
+                const managerChoices = {
+                    'Sales Lead': 1,
+                    'Lead Engineer': 3,
+                    'Account Manager': 5,
+                    'Legal Team Lead': 7,
+                    'None': null,
+                };
+        
+                // Prompt for employee details
+                inquirer.prompt([
+                    {
+                        type: 'input',
+                        name: 'firstName',
+                        message: "What is the employee's first name?",
+                        validate: (first_name) => {
+                            if(!first_name) {
+                                return 'Please enter a first name.';
+                            }
+                            return true;
+                        },
+                    },
+                    {
+                        type: 'input',
+                        name: 'lastName',
+                        message: "What is the employee's last name?",
+                        validate: (last_name) => {
+                            if(!last_name) {
+                                return 'Please enter a last name.';
+                            }
+                            return true;
+                        },
+                    },
+                    {
+                        type: 'list',
+                        name: 'role',
+                        message: "What is the employee's role?",
+                        choices: roles.map(role => role.title)
+                    },
+                    {
+                        type: 'list',
+                        name: 'manager',
+                        message: "Select the manager position responsible for this employee?",
+                        choices: Object.keys(managerChoices),
                     }
-                    console.clear();
-                    console.log(`                                                              `);
-                    console.log("______________________________________________________________");
-                    console.log(`        Employee ${firstName} ${lastName} added successfully! `);
-                    console.log("______________________________________________________________");
-                    console.log(`                                                              `);
-                    process.exit(0);
+                ]).then((answers) => {
+                    const { firstName, lastName, role, manager } = answers;
+        
+                    // Find role ID
+                    const roleId = roles.find(r => r.title === role).id;
+                    const managerId = managerChoices[manager];
+        
+                    // Insert query
+                    const query = `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`;
+                    pool.query(query, [firstName, lastName, roleId, managerId], (err) => {
+                        if (err) {
+                            console.error('Error occurred:', err);
+                            return;
+                        }
+                        console.clear();
+                        console.log(`                                                              `);
+                        console.log("______________________________________________________________");
+                        console.log(`        Employee ${firstName} ${lastName} added successfully! `);
+                        console.log("______________________________________________________________");
+                        console.log(`                                                              `);
+                        process.exit(0);
+                    });
+                }).catch((error) => {
+                    console.error('Error occurred:', error);
                 });
-            }).catch((error) => {
-                console.error('Error occurred:', error);
             });
-        });
-    }
-
+        }
+        
      // Add Role Function -----------------------
     
         
