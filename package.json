@@ -1,0 +1,20 @@
+{
+  "name": "note_traker",
+  "version": "1.0.0",
+  "description": "This is a command-line application to manage a company's employee database, using Node.js, Inquirer, and PostgreSQL.\r   It is an interface that allow the user to easily view and interact with information in the database.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "inquirer": "^8.2.4",
+    "pg": "^8.11.5",
+    "sequelize": "^6.37.3"
+  }
+}
