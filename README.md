@@ -34,5 +34,8 @@ For any correction, please find the source code on Atiam Github. For any questio
 
 
 
-![testing](https://github.com/Atiam/SVG-logo-Generator_-Arnaud-Tiam/blob/main/assets/image_video/testing.png)
+![Departments](https://github.com/Atiam/Employee_Manager-Arnaud_Tiam/blob/main/assets/images/view%20all%20department.png)
 
+
+![Roles](https://github.com/Atiam/Employee_Manager-Arnaud_Tiam/blob/main/assets/images/view%20all%20roles.png)
+![Employees](https://github.com/Atiam/Employee_Manager-Arnaud_Tiam/blob/main/assets/images/view%20all%20departments.png)
