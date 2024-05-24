@@ -254,13 +254,27 @@ inquirer.prompt(questions)
                 
                 const roles = result.rows; // Extract rows from result object
                 
+                // console.log(result.rows)
                 // Manager choices
+
+                // const listOfManager = "select id, title from role where title like '%Manager%'";
+
+                // // pool.query(listOfManager, (err, managers) => {
+                // //     if (err){console.error(`Error occurred:`, err);
+                // //         return;
+                // //     }
+                // //     console.log("Managers", managers.rows)
+                // // })
+                
+
                 const managerChoices = {
-                    'Sales Lead': 1,
-                    'Lead Engineer': 3,
-                    'Account Manager': 5,
-                    'Legal Team Lead': 7,
-                    'None': null,
+                    'DevOps Manager': 127,
+                    'HR Manager': 128,
+                    'Sales Manager': 126,
+                    'Developer Manager': 124,
+                    'Legal Manager': 121,
+                    'Finance Manager': 119,
+                    'None': null
                 };
         
                 // Prompt for employee details
@@ -307,7 +321,7 @@ inquirer.prompt(questions)
                     const managerId = managerChoices[manager];
         
                     // Insert query
-                    const query = `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`;
+                    const query = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)`;
                     pool.query(query, [firstName, lastName, roleId, managerId], (err) => {
                         if (err) {
                             console.error('Error occurred:', err);
@@ -371,12 +385,13 @@ inquirer.prompt(questions)
                         message: 'Select the Department:',
                         choices: departments.rows.map(department => ({ name: department.name, value: department.id }))
                         // choices: departments.map(({ id, name }) => ({name: name, value: id, }))
+                        // console.log(departments.rows.map(department => ({ name: department.name, value: department.id })))
                     }
                 ]).then((answers) => {
                     
                     const { newRoleTitle, newRoleSalary, departmentId } = answers;
                             
-                    const query = `INSERT INTO role (title, salary, department_id) VALUES ('${newRoleTitle}', '${newRoleSalary}', '${departmentId}')`;
+                    const query = `INSERT INTO role (title, salary, department_id) VALUES ($1, $2, $3)`;
                     pool.query(query, (err) => {
                         if (err) {
                             console.error('Error occurred:', err);
