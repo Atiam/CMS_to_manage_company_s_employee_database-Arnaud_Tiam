@@ -34,8 +34,8 @@ For any correction, please find the source code on Atiam Github. For any questio
 
 
 
-![image](https://github.com/Atiam/Employee_Manager-Arnaud_Tiam/blob/main/assets/images/view%20all%20department.png)
+![Departments](https://github.com/Atiam/Employee_Manager-Arnaud_Tiam/blob/main/assets/images/view%20all%20department.png)
 
 
-![image](https://github.com/Atiam/Employee_Manager-Arnaud_Tiam/blob/main/assets/images/view%20all%20roles.png)
-![image](https://github.com/Atiam/Employee_Manager-Arnaud_Tiam/blob/main/assets/images/view%20all%20departments.png)
+![Roles](https://github.com/Atiam/Employee_Manager-Arnaud_Tiam/blob/main/assets/images/view%20all%20roles.png)
+![Employees](https://github.com/Atiam/Employee_Manager-Arnaud_Tiam/blob/main/assets/images/view%20all%20departments.png)
