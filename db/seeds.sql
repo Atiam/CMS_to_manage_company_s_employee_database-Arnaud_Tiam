@@ -56,41 +56,26 @@ VALUES  ('Arnaud', 'Tiam', 9, null),
         ('Frank', 'Mouto', 3, null),
         ('valiencia', 'Mouto', 2, null);
 
-   
-select * from EMPLOYEE 
-join department on 
 
-select 
-EMPLOYEE.id,
-EMPLOYEE.first_name, 
-EMPLOYEE.last_name,
-EMPLOYEE.role_id,
-role.id,
-role.departement_id
-from EMPLOYEE
-join role on employee.role_id = role.id
-group by role_id, 
+-- Update employee set manager_id = 126 where id = 110;
+-- Update employee set manager_id = 126 where id = 125;
+-- Update employee set manager_id = 126 where id = 111;
+
+-- Update employee set manager_id = 124 where id = 106;
+-- Update employee set manager_id = 124 where id = 123;
+-- Update employee set manager_id = 124 where id = 112;
+-- Update employee set manager_id = 124 where id = 105;
+-- Update employee set manager_id = 124 where id = 122;
+-- Update employee set manager_id = 124 where id = 113;
 
 
+-- Update employee set manager_id = 121 where id = 114;
+-- Update employee set manager_id = 121 where id = 120;
+-- Update employee set manager_id = 121 where id = 115;
 
-select 
-EMPLOYEE.id,
-EMPLOYEE.first_name, 
-EMPLOYEE.last_name,
-EMPLOYEE.role_id,
-role.id,
-role.departement_id,
-departement.name
-from EMPLOYEE
-join role on employee.role_id = role.id
-join role on role.department_id = departement.id
-group by employee.id, role.id;
-
-++++++++++++++++++++++++++++++++++++++++++
-select * from EMPLOYEE
-join role on employee.role_id = role.id
-join department on 
-order by department_id;
+-- Update employee set manager_id = 119 where id = 116;
+-- Update employee set manager_id = 119 where id = 118;
+-- Update employee set manager_id = 119 where id = 117;
 
 
 

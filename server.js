@@ -158,7 +158,7 @@ inquirer.prompt(questions)
             console.clear();
             console.log(`                                                                                              `);
             console.log("==============================================================================================");
-            console.log(`                                       EMPLOYEES                                         `);
+            console.log(`                                       EMPLOYEES                                              `);
             console.log("==============================================================================================");
             console.table(results.rows); // Display results in a table
             process.exit(0);
@@ -217,7 +217,7 @@ inquirer.prompt(questions)
             .then((answers) => {
                 // const {departmentName} = answers;
                 const query = `INSERT INTO department (name)
-                                VALUES (${answers})`;
+                                VALUES ('${answers.departmentName}')`;
 
                 pool.query(query, function (err, results) {
                     if (err) {
@@ -227,7 +227,7 @@ inquirer.prompt(questions)
                     console.clear();
                     console.log(`                                                       `);
                     console.log("_______________________________________________________");
-                    console.log(`      ${answers} Department added successfully! `)
+                    console.log(`      ${answers.departmentName} Department added successfully! `)
                     console.log("_______________________________________________________");
                     console.log(`                                                       `);
                     process.exit(0);
@@ -334,8 +334,10 @@ inquirer.prompt(questions)
      function addRole() {
         //    const db = require('./config/connection'); 
             // Query to get all departments
-            const queryAllDepartments = `SELECT id, name FROM departments`;
+            const queryAllDepartments = `SELECT id, name FROM department`;
             pool.query(queryAllDepartments, (err, departments) => {
+                console.log(departments);
+                console.log(departments.rows.map(department => ({ name: department.name, value: department.id })));                
                 if (err) throw err;
         
                 // Prompt for role details
@@ -367,14 +369,15 @@ inquirer.prompt(questions)
                         type: 'list',
                         name: 'departmentId',
                         message: 'Select the Department:',
-                        choices: departments.map(department => ({ name: department.name, value: department.id }))
+                        choices: departments.rows.map(department => ({ name: department.name, value: department.id }))
+                        // choices: departments.map(({ id, name }) => ({name: name, value: id, }))
                     }
                 ]).then((answers) => {
                     
                     const { newRoleTitle, newRoleSalary, departmentId } = answers;
                             
-                    const query = `INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)`;
-                    pool.query(query, [newRoleTitle, newRoleSalary, departmentId], (err) => {
+                    const query = `INSERT INTO role (title, salary, department_id) VALUES ('${newRoleTitle}', '${newRoleSalary}', '${departmentId}')`;
+                    pool.query(query, (err) => {
                         if (err) {
                             console.error('Error occurred:', err);
                             return;
