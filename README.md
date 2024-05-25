@@ -30,7 +30,7 @@ For any correction, please find the source code on Atiam Github. For any questio
 
 ## Illustration
 
-[![Watch the video](https://github.com/Atiam/SVG-logo-Generator_-Arnaud-Tiam/blob/main/assets/image_video/image_for_video.png)](https://drive.google.com/file/d/1UKopt6hjDHuHT1Pc4tPlokw0JoxPZI8_/view)
+[![Watch the video](https://github.com/Atiam/Employee_Manager-Arnaud_Tiam/blob/main/assets/images/image_of_video.png)](https://drive.google.com/file/d/1UKopt6hjDHuHT1Pc4tPlokw0JoxPZI8_/view)
 
 
 
