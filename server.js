@@ -46,11 +46,11 @@ function init(){
             name: `action`,
             choices:[
                 `View All Employees`,
+                `View All Roles`,
+                `View All Departments`,
                 `Add Employee`,
                 `Update Employee Role`,
-                `View All Roles`,
                 `Add Role`,
-                `View All Departments`,
                 `Add Department`,
                 `None`,
             ],
@@ -274,7 +274,7 @@ inquirer.prompt(questions)
                     'Developer Manager': 124,
                     'Legal Manager': 121,
                     'Finance Manager': 119,
-                    'None': null
+                    'Quit': null
                 };
         
                 // Prompt for employee details
@@ -350,8 +350,8 @@ inquirer.prompt(questions)
             // Query to get all departments
             const queryAllDepartments = `SELECT id, name FROM department`;
             pool.query(queryAllDepartments, (err, departments) => {
-                console.log("departments", departments);
-                console.log(departments.rows.map(department => ({ name: department.name, value: department.id })));                
+                // console.log("departments", departments);
+                // console.log(departments.rows.map(department => ({ name: department.name, value: department.id })));                
                 if (err) throw err;
         
                 // Prompt for role details
@@ -416,11 +416,11 @@ inquirer.prompt(questions)
         
          function updateEmployeeRole() {
 
-            const queryEmployee = `SELECT id, first_name || ' ' || last_name AS name FROM employee`;
+            const queryEmployee = `SELECT id, first_name || ' ' || last_name AS name FROM employee order by name`;
 
             pool.query(queryEmployee, (err, employees) => {
                 if (err) throw err;
-                console.log("employees result",employees.rows);        
+                // console.log("employees result",employees.rows);        
                 inquirer.prompt([
                     {
                         type: 'list',
@@ -431,11 +431,11 @@ inquirer.prompt(questions)
                 ])
                 .then(({ employeeId }) => {
 
-                    const queryNewRole = `SELECT id, title FROM role`
+                    const queryNewRole = `SELECT id, title FROM role order by title`;
                     
                     pool.query(queryNewRole, (err, roles) => {
                         if (err) throw err;
-                        console.log("Roles data", roles);
+                        // console.log("Roles data", roles);
 
                         inquirer.prompt([
                             {
