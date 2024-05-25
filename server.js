@@ -1,11 +1,10 @@
 // Dependencies____________________________________________________
 
 
-// const { default: inquirer } = require("inquirer");
 const express = require('express');
 
 const inquirer = require(`inquirer`);
-// const sequelize = require(`./config/connection`);
+
 require(`console.table`);
 const {Pool} = require(`pg`);
 
