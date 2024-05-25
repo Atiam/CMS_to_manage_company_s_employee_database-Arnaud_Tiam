@@ -350,7 +350,7 @@ inquirer.prompt(questions)
             // Query to get all departments
             const queryAllDepartments = `SELECT id, name FROM department`;
             pool.query(queryAllDepartments, (err, departments) => {
-                console.log(departments);
+                console.log("departments", departments);
                 console.log(departments.rows.map(department => ({ name: department.name, value: department.id })));                
                 if (err) throw err;
         
@@ -391,8 +391,8 @@ inquirer.prompt(questions)
                     
                     const { newRoleTitle, newRoleSalary, departmentId } = answers;
                             
-                    const query = `INSERT INTO role (title, salary, department_id) VALUES ($1, $2, $3)`;
-                    pool.query(query, (err) => {
+                const query = `INSERT INTO role (title, salary, department_id) VALUES ($1, $2, $3)`;
+                    pool.query(query, [newRoleTitle, newRoleSalary, departmentId, ], (err) => {
                         if (err) {
                             console.error('Error occurred:', err);
                             return;
@@ -416,36 +416,37 @@ inquirer.prompt(questions)
         
          function updateEmployeeRole() {
 
-            const queryEmployee = `SELECT id, first_name || ' ' || last_name AS name FROM employee`
+            const queryEmployee = `SELECT id, first_name || ' ' || last_name AS name FROM employee`;
 
             pool.query(queryEmployee, (err, employees) => {
                 if (err) throw err;
-        
+                console.log("employees result",employees.rows);        
                 inquirer.prompt([
                     {
                         type: 'list',
                         name: 'employeeId',
                         message: 'Which employee do you want to update?',
-                        choices: employees.map(employee => ({ name: employee.name, value: employee.id }))
+                        choices: employees.rows.map(employee => ({ name: employee.name, value: employee.id }))
                     }
                 ])
                 .then(({ employeeId }) => {
 
-                    const queryNewRole = `SELECT id, title FROM roles`
+                    const queryNewRole = `SELECT id, title FROM role`
                     
                     pool.query(queryNewRole, (err, roles) => {
                         if (err) throw err;
+                        console.log("Roles data", roles);
 
                         inquirer.prompt([
                             {
                                 type: 'list',
                                 name: 'roleId',
                                 message: 'What is the new role?',
-                                choices: roles.map(role => ({ name: role.title, value: role.id }))
+                                choices: roles.rows.map(role => ({ name: role.title, value: role.id }))
                             }
                         ]).then(({ roleId }) => {
                             
-                            const queryUpdateRole = `UPDATE employee SET role_id = ? WHERE id = ?`
+                            const queryUpdateRole = `UPDATE employee SET role_id = $1 WHERE id = $2`
 
                             pool.query(queryUpdateRole, [roleId, employeeId], (err) => {
                                 if (err) throw err;
