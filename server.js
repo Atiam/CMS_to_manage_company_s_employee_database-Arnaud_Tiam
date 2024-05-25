@@ -52,7 +52,7 @@ function init(){
                 `Update Employee Role`,
                 `Add Role`,
                 `Add Department`,
-                `None`,
+                `Quit`,
             ],
             default: `Use arrow keys. Move up and down to reveal more choices.`
         },
@@ -274,7 +274,7 @@ inquirer.prompt(questions)
                     'Developer Manager': 124,
                     'Legal Manager': 121,
                     'Finance Manager': 119,
-                    'Quit': null
+                    'None': null
                 };
         
                 // Prompt for employee details
