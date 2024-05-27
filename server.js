@@ -41,6 +41,7 @@ function init(){
     const questions = [
         {
             type:`list`,
+            loop: false,
             message: `What would you like to do?`,
             name: `action`,
             choices:[
@@ -215,6 +216,8 @@ inquirer.prompt(questions)
 
             .then((answers) => {
                 // const {departmentName} = answers;
+                // let say the department was QA_test5 the console.log of the answers will look like the following.
+                // console.log(answers); ===> { departmentName: 'QA_test5' }
                 const query = `INSERT INTO department (name)
                                 VALUES ('${answers.departmentName}')`;
 
@@ -244,39 +247,29 @@ inquirer.prompt(questions)
    
         function addEmployee() {
             // Query to get all roles
-            const queryAllRoles = `SELECT * FROM role`;
-            pool.query(queryAllRoles, (err, result) => {
-                if (err) {
-                    console.error('Error occurred:', err);
-                    return;
-                }
-                
-                const roles = result.rows; // Extract rows from result object
-                
-                // console.log(result.rows)
-                // Manager choices
-
-                // const listOfManager = "select id, title from role where title like '%Manager%'";
-
-                // // pool.query(listOfManager, (err, managers) => {
-                // //     if (err){console.error(`Error occurred:`, err);
-                // //         return;
-                // //     }
-                // //     console.log("Managers", managers.rows)
-                // // })
-                
-
-                const managerChoices = {
-                    'DevOps Manager': 127,
-                    'HR Manager': 128,
-                    'Sales Manager': 126,
-                    'Developer Manager': 124,
-                    'Legal Manager': 121,
-                    'Finance Manager': 119,
-                    'None': null
-                };
-        
-                // Prompt for employee details
+            const queryAllRoles = pool.query(`SELECT * FROM role`);
+            
+            const queryAllManagers = pool.query(`SELECT e.first_name || ' ' || e.last_name as Employee_name, 
+    role.title,
+    e.id as manager_id
+    FROM EMPLOYEE e
+    JOIN role ON e.role_id = role.id
+    WHERE role.title LIKE '%anager%'`);
+            Promise.all([queryAllRoles, queryAllManagers])
+            .then(([resultQueryAllRoles, queryAllManagers]) => {
+    
+                // console.log(`All Roles`, resultQueryAllRoles);
+                // console.log(`All Managers`,queryAllManagers);
+    
+                const roles = resultQueryAllRoles.rows; // Extract rows from result object
+    
+                // const roleChoices = roles.rows.map(role => ({ name: role.title, value: role.id }))
+    
+                const managers = queryAllManagers.rows; // Extract rows from result object
+    
+                const managerChoices = managers.map(manager => ({ name: (manager.employee_name + " --- " + manager.title), value: manager.manager_id }));
+    
+    // Prompt for employee details
                 inquirer.prompt([
                     {
                         type: 'input',
@@ -308,38 +301,40 @@ inquirer.prompt(questions)
                     },
                     {
                         type: 'list',
-                        name: 'manager',
+                        name: 'manager_id',
                         message: "Select the manager position responsible for this employee?",
-                        choices: Object.keys(managerChoices),
+                        choices: managerChoices,
+                        
+    
                     }
                 ]).then((answers) => {
-                    const { firstName, lastName, role, manager } = answers;
-        
-                    // Find role ID
-                    const roleId = roles.find(r => r.title === role).id;
-                    const managerId = managerChoices[manager];
-        
-                    // Insert query
-                    const query = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)`;
-                    pool.query(query, [firstName, lastName, roleId, managerId], (err) => {
-                        if (err) {
-                            console.error('Error occurred:', err);
-                            return;
-                        }
-                        console.clear();
-                        console.log(`                                                              `);
-                        console.log("______________________________________________________________");
-                        console.log(`        Employee ${firstName} ${lastName} added successfully! `);
-                        console.log("______________________________________________________________");
-                        console.log(`                                                              `);
-                        process.exit(0);
-                    });
-                }).catch((error) => {
-                    console.error('Error occurred:', error);
-                });
+                                const { firstName, lastName, role, manager_id } = answers;
+                    
+                                // Find role ID
+                                const roleId = roles.find(r => r.title === role).id;
+                                // const managerId = managerChoices[manager];
+                    
+                                // Insert query
+                                const query = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)`;
+                                pool.query(query, [firstName, lastName, roleId, manager_id], (err) => {
+                                    if (err) {
+                                        console.error('Error occurred:', err);
+                                        return;
+                                    }
+                                    console.clear();
+                                    console.log(`                                                              `);
+                                    console.log("______________________________________________________________");
+                                    console.log(`        Employee ${firstName} ${lastName} added successfully! `);
+                                    console.log("______________________________________________________________");
+                                    console.log(`                                                              `);
+                                    process.exit(0);
+                                });
+                            }).catch((error) => { console.error(`Error executing queries:`, error);
+    
             });
-        }
-        
+           });
+        } ;  
+    
      // Add Role Function -----------------------
     
         
